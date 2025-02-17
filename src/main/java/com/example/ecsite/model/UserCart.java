@@ -1,7 +1,6 @@
 package com.example.ecsite.model;
 
 import java.util.List;
-//なんでCartItemと分けてるんやっけ
 public class UserCart {
     private int id;
     private String username;
