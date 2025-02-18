@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-// 商品の型
 interface Product {
   id: number;
   name: string;
@@ -10,18 +9,26 @@ interface Product {
   image: string;
 }
 
-// ユーザーの型
 interface User {
   id: number;
   username: string;
   cartItems: number[]; // 商品IDのリスト
 }
 
-// `ProductList` の型定義
+// ProductListの型定義
 const ProductList: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [user, setUser] = useState<User | null>(null);
-  const [favorites, setFavorites] = useState<number[]>([]);
+  const [favorites, setFavorites] = useState<number[]>(() => {
+  const storedFavorites = localStorage.getItem("favorites");
+  return storedFavorites ? JSON.parse(storedFavorites) : [];
+});
+
+  // favoritesが変更されたらlocalStorageに保存
+  useEffect(() => {
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+  }, [favorites]);
+
 
   // 商品一覧を取得
   useEffect(() => {
@@ -111,7 +118,6 @@ const ProductList: React.FC = () => {
           カートを確認する
         </button>
       </Link> 
-	  {/* //TODO：あとで直す */}
 
       <ul style={{ listStyle: "none", padding: 0 }}>
         {products.map((product) => {
@@ -196,7 +202,7 @@ const ProductList: React.FC = () => {
                     cursor: "pointer",
                   }}
                 >
-                  {favorites.includes(product.id) ? "お気に入りから削除" : "お気に入りに追加"}
+                  {favorites.includes(product.id) ? "★ お気に入り解除" : "☆ お気に入りに追加"}
                 </button>
               </div>
             </li>
