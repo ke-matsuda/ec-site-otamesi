@@ -96,7 +96,7 @@ const ProductList: React.FC = () => {
       {user && <h2>ログインユーザー: {user.username}</h2>}
 
       {/* カート画面へのリンク */}
-      {/* <Link to="/cart">
+      <Link to="/cart">
         <button
           style={{
             marginBottom: "20px",
@@ -110,7 +110,8 @@ const ProductList: React.FC = () => {
         >
           カートを確認する
         </button>
-      </Link> //TODO：あとで直す*/}
+      </Link> 
+	  {/* //TODO：あとで直す */}
 
       <ul style={{ listStyle: "none", padding: 0 }}>
         {products.map((product) => {
@@ -162,11 +163,17 @@ const ProductList: React.FC = () => {
                   詳細
                 </button>
                 <button
-                  onClick={() =>
-                    isInCart
-                      ? handleRemoveFromCart(user!.id, product.id)
-                      : handleAddToCart(user!.id, product.id)
-                  }
+
+				onClick={() => {
+					if (!user) {
+					alert("ユーザー情報が取得できていません。");
+					return;
+					}
+					
+					isInCart
+					? handleRemoveFromCart(user.id, product.id)
+					: handleAddToCart(user.id, product.id);
+				}}
                   style={{
                     padding: "5px 10px",
                     backgroundColor: isInCart ? "red" : "green",
