@@ -2,18 +2,36 @@ package com.example.ecsite.model;
 
 import java.util.List;
 
+/**
+ * ユーザー情報のゲッターとセッター.
+ */
 public class User {
-    private int id;
-    private String username;
-    private List<Integer> cartItems; // カート内の商品IDリスト
+  private int id;
+  private String username;
+  private List<Integer> cartItems; // カート内の商品IDリスト
 
-    // ゲッターとセッター
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+  // ゲッターとセッター
+  public int getId() {
+    return id;
+  }
 
-    public String getUsername() { return username; }
-    public void setUsername(String username) { this.username = username; }
+  public void setId(int id) {
+    this.id = id;
+  }
 
-    public List<Integer> getCartItems() { return cartItems; }
-    public void setCartItems(List<Integer> cartItems) { this.cartItems = cartItems; }
+  public String getUsername() {
+    return username;
+  }
+
+  public void setUsername(String username) {
+    this.username = username;
+  }
+
+  public List<Integer> getCartItems() {
+    return cartItems;
+  }
+
+  public void setCartItems(List<Integer> cartItems) {
+    this.cartItems = cartItems;
+  }
 }
