@@ -16,9 +16,6 @@ interface Product {
     image: string;
 }
 
-//これESLintで引っかかるはず...
-const a = 123;
-
 export function CartScreen() {
     const [cartItems, setCartItems] = useState<Product[]>([]);
     const [user, setUser] = useState<User | null>(null);
