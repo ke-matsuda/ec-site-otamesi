@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ProductList } from "./ProductList";
 import { CartScreen } from "./CartScreen";
 import { OkiniScreen } from "./OkiniScreen";
 
 function App() {
     return (
-        <Router>
+        <BrowserRouter>
             <Routes>
                 {/* 商品一覧ページ */}
                 <Route path="/" element={<ProductList />} />
@@ -16,7 +16,7 @@ function App() {
                 {/* お気に入りリスト画面 */}
                 <Route path="/okini" element={<OkiniScreen />} />
             </Routes>
-        </Router>
+        </BrowserRouter>
     );
 }
 
