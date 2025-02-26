@@ -19,14 +19,23 @@ interface User {
 export const ProductList: React.FC = () => {
     const [products, setProducts] = useState<Product[]>([]);
     const [user, setUser] = useState<User | null>(null);
-    const [favorites, setFavorites] = useState<number[]>(() => {
-        const storedFavorites = localStorage.getItem("favorites");
-        return storedFavorites ? JSON.parse(storedFavorites) : [];
-    });
+    const [favorites, setFavorites] = useState<number[]>([]);
 
-    // favoritesが変更されたらlocalStorageに保存
+    //初回のみ実行:ローカルストレージからお気に入りを復元
     useEffect((): void => {
-        localStorage.setItem("favorites", JSON.stringify(favorites));
+        const storedFavorites = localStorage.getItem("favorites");
+        if (storedFavorites) {
+            const parsedFavorites = JSON.parse(storedFavorites);
+            setFavorites(parsedFavorites);
+        }
+    }, []);
+
+    //お気に入りに変化時に実行:ローカルストレージに保存する
+    useEffect((): void => {
+        if (favorites.length > 0) {
+            //リロード時に空の配列をローカルストレージに入れたくないため
+            localStorage.setItem("favorites", JSON.stringify(favorites));
+        }
     }, [favorites]);
 
     // 商品一覧を取得
