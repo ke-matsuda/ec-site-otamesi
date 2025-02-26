@@ -16,7 +16,7 @@ interface Product {
     image: string;
 }
 
-export function CartScreen() {
+export const CartScreen: React.FC = () => {
     const [cartItems, setCartItems] = useState<Product[]>([]);
     const [user, setUser] = useState<User | null>(null);
 
@@ -155,4 +155,4 @@ export function CartScreen() {
             )}
         </div>
     );
-}
+};
