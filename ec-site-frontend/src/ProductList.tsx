@@ -130,6 +130,7 @@ export const ProductList: React.FC = () => {
                     カートを確認する
                 </button>
             </Link>
+            <Link to="okini">お気に入り一覧</Link>
 
             <ul style={{ listStyle: "none", padding: 0 }}>
                 {products.map((product) => {
