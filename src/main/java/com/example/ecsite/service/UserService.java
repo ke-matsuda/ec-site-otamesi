@@ -13,7 +13,8 @@ public class UserService {
   private final UserMapper userMapper;
 
   /**
-   * ユーザーサービス.
+   * コンストラクタ. <br>
+   * ユーザーマッパーを設定する
    *
    * @param userMapper ユーザーマッパー
    */
