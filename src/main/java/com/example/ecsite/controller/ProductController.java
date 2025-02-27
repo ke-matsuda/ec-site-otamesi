@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -67,12 +68,11 @@ public class ProductController {
    * @param request リクエスト
    * @return レスポンス
    */
-  @PostMapping("/{id}/remove-from-cart")
-  public ResponseEntity<?> removFromCart(@PathVariable int id,
-      @RequestBody Map<String, Integer> request) {
-    int userId = request.get("userId");
+  @DeleteMapping("/{id}/remove-from-cart/{userId}")
+  public ResponseEntity<String> removFromCart(@PathVariable int id, @PathVariable int userId) {
     productService.removeFromCart(userId, id);
     return ResponseEntity.ok("Remove from cart");
+
   }
 
   /**
@@ -83,7 +83,7 @@ public class ProductController {
    * @return レスポンス
    */
   @PostMapping("/{id}/update-quantity")
-  public ResponseEntity<?> updateQuantity(@PathVariable int id,
+  public ResponseEntity<String> updateQuantity(@PathVariable int id,
       @RequestBody Map<String, Integer> request) {
     int userId = request.get("userId");
     int quantity = request.get("quantity");
