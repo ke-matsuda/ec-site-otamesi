@@ -51,7 +51,7 @@ public class ProductController {
    * @param request リクエスト
    * @return レスポンス
    */
-  @PostMapping("/{id}/add-to-cart")
+  @PostMapping("/{id}")
   public ResponseEntity<?> addToCart(@PathVariable int id,
       @RequestBody Map<String, Integer> request) {
     int userId = request.get("userId");

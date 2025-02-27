@@ -96,7 +96,7 @@ export const ProductList: React.FC = () => {
             alert("ユーザー情報が取得できていません。");
             return;
         }
-        fetch(`http://localhost:8080/api/products/${productId}/add-to-cart`, {
+        fetch(`http://localhost:8080/api/products/${productId}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ userId }),
