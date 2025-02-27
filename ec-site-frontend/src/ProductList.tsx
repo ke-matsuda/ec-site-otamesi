@@ -30,13 +30,18 @@ export const ProductList: React.FC = () => {
         }
     }, []);
 
-    //お気に入りに変化時に実行:ローカルストレージに保存する
-    useEffect((): void => {
-        if (favorites.length > 0) {
-            //リロード時に空の配列をローカルストレージに入れたくないため
-            localStorage.setItem("favorites", JSON.stringify(favorites));
-        }
-    }, [favorites]);
+    // お気に入りの追加・削除
+    const handleToggleFavorite = (productId: number): void => {
+        setFavorites((prevFavorites) => {
+            const updatedFavorites = prevFavorites.includes(productId)
+                ? prevFavorites.filter((id) => id !== productId)
+                : [...prevFavorites, productId];
+
+            localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+
+            return updatedFavorites;
+        });
+    };
 
     // 商品一覧を取得
     useEffect((): void => {
@@ -107,15 +112,6 @@ export const ProductList: React.FC = () => {
                 }
             })
             .catch((error) => console.error("Error adding to cart:", error));
-    };
-
-    // お気に入りの追加・削除
-    const handleToggleFavorite = (productId: number): void => {
-        setFavorites((prevFavorites) =>
-            prevFavorites.includes(productId)
-                ? prevFavorites.filter((id) => id !== productId)
-                : [...prevFavorites, productId]
-        );
     };
 
     return (

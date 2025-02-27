@@ -13,7 +13,8 @@ public class ProductService {
   private final ProductMapper productMapper;
 
   /**
-   * 商品に関するサービス.
+   * コンストラクタ.<br>
+   * 商品に関するマッパーを設定する
    *
    * @param productMapper 商品に関するマッパー
    */

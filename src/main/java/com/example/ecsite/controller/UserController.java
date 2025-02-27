@@ -20,7 +20,8 @@ public class UserController {
   private final UserService userService;
 
   /**
-   * ユーザーまわりののリクエストを処理するコントローラー.
+   * コンストラクタ.<br>
+   * ユーザーまわりの内部処理をするサービスを設定する
    *
    * @param userService ユーザーまわりの内部処理をするサービス.
    */

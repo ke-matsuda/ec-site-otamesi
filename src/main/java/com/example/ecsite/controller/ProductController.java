@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 商品まわりのコントローラー.カートに製品を入れたり、除いたりする.カート内の数量の更新も行う.
+ * 商品まわりのコントローラー. <br>
+ * カートに製品を入れたり、除いたりする.<br>
+ * カート内の数量の更新も行う.
  */
 @RestController
 @RequestMapping("/api/products")
@@ -23,7 +25,8 @@ public class ProductController {
   private ProductService productService;
 
   /**
-   * 商品まわりのリクエストを処理するコントローラー.
+   * コンストラクタ.<br>
+   * 商品まわりのロジックを処理するサービスを設定する
    *
    * @param productService 商品まわりのロジックを処理するサービス
    */
