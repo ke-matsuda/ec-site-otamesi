@@ -1,7 +1,7 @@
 package com.example.ecsite.model;
 
 /**
- * カートのゲッターとセッター.
+ * カートに入っているアイテムを表す.
  */
 public class CartItem {
   private int productId;

@@ -1,17 +1,16 @@
 package com.example.ecsite.model;
 
 /**
- * 商品情報のゲッターとセッター.
+ * 商品の情報を表す.
  */
 public class Product {
-  private Long id;
+  private long id;
   private String name;
   private String description;
-  private Double price;
+  private double price;
   private String imageurl;
-  private Boolean isInCart;
 
-  public Long getId() {
+  public long getId() {
     return id;
   }
 
@@ -35,7 +34,7 @@ public class Product {
     this.description = description;
   }
 
-  public Double getPrice() {
+  public double getPrice() {
     return price;
   }
 
@@ -51,11 +50,4 @@ public class Product {
     this.imageurl = imageural;
   }
 
-  public Boolean getIsInCart() {
-    return isInCart;
-  }
-
-  public void setIsInCart(Boolean isInCart) {
-    this.isInCart = isInCart;
-  }
 }

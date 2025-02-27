@@ -3,7 +3,7 @@ package com.example.ecsite.model;
 import java.util.List;
 
 /**
- * ユーザーとそのカート情報のゲッターとセッター.
+ * ユーザーとそのカート情報を表す.
  */
 public class UserCart {
   private int id;

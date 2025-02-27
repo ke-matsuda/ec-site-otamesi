@@ -3,7 +3,7 @@ package com.example.ecsite.model;
 import java.util.List;
 
 /**
- * ユーザー情報のゲッターとセッター.
+ * ユーザー情報を表す.
  */
 public class User {
   private int id;
