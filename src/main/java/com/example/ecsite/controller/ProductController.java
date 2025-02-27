@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -82,7 +83,7 @@ public class ProductController {
    * @param request リクエスト
    * @return レスポンス
    */
-  @PostMapping("/{id}/update-quantity")
+  @PatchMapping("/{id}/update-quantity")
   public ResponseEntity<String> updateQuantity(@PathVariable int id,
       @RequestBody Map<String, Integer> request) {
     int userId = request.get("userId");

@@ -72,7 +72,7 @@ export const CartScreen: React.FC = () => {
         fetch(
             `http://localhost:8080/api/products/${productId}/update-quantity`,
             {
-                method: "POST",
+                method: "PATCH",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     userId: user.id,
@@ -127,7 +127,9 @@ export const CartScreen: React.FC = () => {
                                             item.quantity - 1
                                         )
                                     }
-                                ></button>
+                                >
+                                    −
+                                </button>
                             )}
                             数量 {item.quantity}
                             <button
