@@ -30,13 +30,13 @@ public class UserController {
   }
 
   /**
-   * ログインユーザーの情報を取得する※便宜上今回は"1"で固定.
+   * ログインユーザーの情報を取得する.
    *
    * @return レスポンス
    */
   @GetMapping("/current")
   public ResponseEntity<User> getCurrentUser() {
-    User user = userService.getUserWithCart(1); // user1のIDを指定
+    User user = userService.getUserWithCart(1); // ※便宜上今回は"1"で固定.
     return ResponseEntity.ok(user);
   }
 

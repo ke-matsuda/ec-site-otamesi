@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 /**
- * ユーザーに関するSQLクエリとつなぐ.
+ * ユーザーのマッパー.
  */
 @Mapper
 public interface UserMapper {

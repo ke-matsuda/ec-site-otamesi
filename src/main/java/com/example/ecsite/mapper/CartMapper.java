@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Param;
  * 商品のマッパー.
  */
 @Mapper
-public interface ProductMapper {
+public interface CartMapper {
   /**
    * 全件検索.
    *
