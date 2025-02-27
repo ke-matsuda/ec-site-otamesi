@@ -52,10 +52,11 @@ public class ProductController {
    * @return レスポンス
    */
   @PostMapping("/{id}")
-  public ResponseEntity<?> addToCart(@PathVariable int id,
+  public ResponseEntity<String> addToCart(@PathVariable int id,
       @RequestBody Map<String, Integer> request) {
     int userId = request.get("userId");
     productService.addToCart(userId, id);
+    ResponseEntity.ok("test");
     return ResponseEntity.ok("Added to cart");
   }
 
