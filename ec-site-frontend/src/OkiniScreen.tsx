@@ -45,6 +45,11 @@ export const OkiniScreen: React.FC = () => {
         localStorage.setItem("favorites", JSON.stringify(updatedOkini));
     };
 
+    const handleAllRemoveFavorites = (): void => {
+        localStorage.removeItem("favorites");
+        setFavorites([]);
+    };
+
     return (
         <div style={{ padding: "20px" }}>
             <h1>お気に入り一覧</h1>
@@ -54,21 +59,9 @@ export const OkiniScreen: React.FC = () => {
             <button onClick={() => alert("まだ")}>
                 まとめてカートに入れる
             </button>
-            {/* <ul style={{ listStyle: "none", padding: 0 }}>
-                {products
-                    .filter((product: Product) => {
-                        console.log(favorites, product.id);
-                        return favorites.includes(product.id);
-                    })
-                    .map((product) => (
-                        <li key={product.productId}>
-                            <div>
-                                <h2>{product.productName}</h2>
-                                <p>{product.price}円</p>
-                            </div>
-                        </li>
-                    ))}
-            </ul> */}
+            <button onClick={() => handleAllRemoveFavorites()}>
+                お気に入りをまとめて削除
+            </button>
             <ul style={{ listStyle: "none", padding: 0 }}>
                 {products
                     .filter((product) => favorites.includes(product.id)) // お気に入りに登録された商品のみを表示
