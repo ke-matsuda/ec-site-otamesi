@@ -5,12 +5,6 @@
         SELECT id, name, description, price, imageurl,is_in_cart
         FROM products
     </select>
-    <update id="updateCart">
-        UPDATE products
-        SET is_in_cart = #{isInCart}
-        WHERE id =
-        #{id};
-    </update>
     <insert id="addToCart">
         INSERT INTO cart (user_id, product_id,created_by,
         updated_by) VALUES (#{userId}, #{productId},#{userId},#{userId})

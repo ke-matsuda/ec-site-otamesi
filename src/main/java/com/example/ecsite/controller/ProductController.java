@@ -34,6 +34,11 @@ public class ProductController {
     this.productService = productService;
   }
 
+  /**
+   * 商品一覧を取得する.
+   *
+   * @return 商品一覧のリスト
+   */
   @GetMapping
   public List<Product> getProducts() {
     return productService.getAllProducts();
