@@ -66,7 +66,7 @@ export const ProductList: React.FC = () => {
             return;
         }
         fetch(
-            `http://localhost:8080/api/products/${productId}/remove-from-cart/${userId}`,
+            `http://localhost:8080/api/cart/${productId}/remove-product/${userId}`,
             {
                 method: "DELETE",
                 headers: { "Content-Type": "application/json" },
@@ -95,7 +95,7 @@ export const ProductList: React.FC = () => {
             alert("ユーザー情報が取得できていません。");
             return;
         }
-        fetch(`http://localhost:8080/api/products/${productId}`, {
+        fetch(`http://localhost:8080/api/cart/${productId}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ userId }),

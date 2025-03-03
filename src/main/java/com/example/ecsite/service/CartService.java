@@ -1,39 +1,33 @@
 package com.example.ecsite.service;
 
-import com.example.ecsite.mapper.ProductMapper;
-import com.example.ecsite.model.Product;
-import java.util.List;
+import com.example.ecsite.mapper.CartMapper;
 import org.springframework.stereotype.Service;
 
 /**
- * 商品に関するサービス.
+ * カートに関するサービス.
  */
 @Service
 public class CartService {
-  private final ProductMapper productMapper;
+  private final CartMapper cartMapper;
 
   /**
    * コンストラクタ.<br>
-   * 商品に関するマッパーを設定する
+   * カートに関するマッパーを設定する
    *
-   * @param productMapper 商品に関するマッパー
+   * @param carttMapper カートに関するマッパー
    */
-  public CartService(ProductMapper productMapper) {
-    this.productMapper = productMapper;
-  }
-
-  public List<Product> getAllProducts() {
-    return productMapper.findAll();
+  public CartService(CartMapper cartMapper) {
+    this.cartMapper = cartMapper;
   }
 
   /**
-   * カートに追加をする.
+   * カートに商品を追加をする.
    *
    * @param userId ユーザーID
    * @param productId 商品ID
    */
-  public void addToCart(int userId, int productId) {
-    productMapper.addToCart(userId, productId);
+  public void addProduct(int userId, int productId) {
+    cartMapper.addProduct(userId, productId);
   }
 
   /**
@@ -42,8 +36,8 @@ public class CartService {
    * @param userId ユーザーID
    * @param productId 商品ID
    */
-  public void removeFromCart(int userId, int productId) {
-    productMapper.removeFromCart(userId, productId);
+  public void removeProduct(int userId, int productId) {
+    cartMapper.removeProduct(userId, productId);
   }
 
   /**
@@ -54,7 +48,7 @@ public class CartService {
    * @param quantity 更新後の数量
    */
   public void updateCartQuantity(int userId, int productId, int quantity) {
-    productMapper.updateQuantity(userId, productId, quantity);
+    cartMapper.updateQuantity(userId, productId, quantity);
   }
 
 }

@@ -1,16 +1,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.ecsite.mapper.ProductMapper">
-    <select id="findAll"
-        resultType="com.example.ecsite.model.Product">
-        SELECT id, name, description, price, imageurl,is_in_cart
-        FROM products
-    </select>
-    <insert id="addToCart">
+<mapper namespace="com.example.ecsite.mapper.CartMapper">
+    <insert id="addProduct">
         INSERT INTO cart (user_id, product_id,created_by,
         updated_by) VALUES (#{userId}, #{productId},#{userId},#{userId})
     </insert>
 
-    <delete id="removeFromCart">
+    <delete id="removeProduct">
         DELETE FROM cart WHERE user_id = #{userId} AND
         product_id = #{productId}
     </delete>

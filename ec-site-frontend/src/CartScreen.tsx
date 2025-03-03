@@ -42,7 +42,7 @@ export const CartScreen: React.FC = () => {
         const userId: number = user.id;
 
         fetch(
-            `http://localhost:8080/api/products/${productId}/remove-from-cart/${userId}`,
+            `http://localhost:8080/api/cart/${productId}/remove-product/${userId}`,
             {
                 method: "DELETE",
                 headers: { "Content-Type": "application/json" },
@@ -69,17 +69,14 @@ export const CartScreen: React.FC = () => {
     ): void => {
         if (!user) return;
 
-        fetch(
-            `http://localhost:8080/api/products/${productId}/update-quantity`,
-            {
-                method: "PATCH",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    userId: user.id,
-                    quantity: newQuantity,
-                }),
-            }
-        )
+        fetch(`http://localhost:8080/api/cart/${productId}/update-quantity`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                userId: user.id,
+                quantity: newQuantity,
+            }),
+        })
             .then((response) => {
                 if (response.ok) {
                     setCartItems(
