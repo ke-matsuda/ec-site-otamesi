@@ -4,24 +4,16 @@ package com.example.ecsite.model;
  * カートに入っているアイテムを表す.
  */
 public class CartItem {
-  private int productId;
-  private String productName;
+  private int userId;
+  private Product product;
   private int quantity;
 
-  public int getProductId() {
-    return productId;
+  public Product getProduct() {
+    return product;
   }
 
-  public void setProductId(int productId) {
-    this.productId = productId;
-  }
-
-  public String getProductName() {
-    return productName;
-  }
-
-  public void setProductName(String productName) {
-    this.productName = productName;
+  public void setProduct(Product product) {
+    this.product = product;
   }
 
   public int getQuantity() {
@@ -30,6 +22,14 @@ public class CartItem {
 
   public void setQuantity(int quantity) {
     this.quantity = quantity;
+  }
+
+  public int getUserId() {
+    return userId;
+  }
+
+  public void setUserId(int userId) {
+    this.userId = userId;
   }
 
 }

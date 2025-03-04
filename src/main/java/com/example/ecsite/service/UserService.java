@@ -1,8 +1,9 @@
 package com.example.ecsite.service;
 
 import com.example.ecsite.mapper.UserMapper;
+import com.example.ecsite.model.CartItem;
 import com.example.ecsite.model.User;
-import com.example.ecsite.model.UserCart;
+import java.util.List;
 import org.springframework.stereotype.Service;
 
 /**
@@ -38,7 +39,7 @@ public class UserService {
    * @param id ユーザーID
    * @return ユーザー情報と紐づくカートおよび商品名
    */
-  public UserCart getUserWithCartAndProductName(int id) {
-    return userMapper.findUserWithCartAndProductName(id);
+  public List<CartItem> findCartItemsByUserId(int id) {
+    return userMapper.findCartItemsByUserId(id);
   }
 }

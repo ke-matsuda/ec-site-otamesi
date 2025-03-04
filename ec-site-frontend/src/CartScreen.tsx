@@ -7,17 +7,32 @@ interface User {
     cartItems: number[];
 }
 
+// interface Product {
+//     productId: number;
+//     productName: string;
+//     quantity: number;
+//     description: string;
+//     price: number;
+//     image: string;
+// }
+
 interface Product {
-    productId: number;
-    productName: string;
-    quantity: number;
+    id: number;
+    name: string;
     description: string;
     price: number;
     image: string;
 }
 
+interface CartItem {
+    userId: number;
+    quantity: number;
+    product: Product;
+    productId: number;
+}
+
 export const CartScreen: React.FC = () => {
-    const [cartItems, setCartItems] = useState<Product[]>([]);
+    const [cartItems, setCartItems] = useState<CartItem[]>([]);
     const [user, setUser] = useState<User | null>(null);
 
     useEffect((): void => {
@@ -25,7 +40,8 @@ export const CartScreen: React.FC = () => {
             .then((response) => response.json())
             .then((data) => {
                 setUser(data);
-                setCartItems(data.cartItems);
+                setCartItems(data);
+                console.log(cartItems, data);
             })
             .catch((error) => console.error("Error fetching user:", error));
     }, []);
@@ -107,7 +123,7 @@ export const CartScreen: React.FC = () => {
                 <ul>
                     {cartItems.map((item) => (
                         <li key={item.productId}>
-                            <h3>{item.productName}</h3>
+                            <h3>{item.product.name}</h3>
                             {item.quantity === 1 ? (
                                 <button
                                     onClick={() =>

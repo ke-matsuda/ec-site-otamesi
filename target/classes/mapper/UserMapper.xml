@@ -12,42 +12,38 @@
     </resultMap>
 
     <select id="findUserWithCart" resultMap="UserResultMap">
-        SELECT u.id, u.username,
+        SELECT u.id,
+        u.username,
         c.product_id
         FROM users u
-        LEFT JOIN cart c ON u.id = c.user_id
+        LEFT JOIN cart c ON u.id =
+        c.user_id
         WHERE u.id
         = #{userId}
     </select>
 
-    <resultMap id="CartResultMap"
-        type="com.example.ecsite.model.UserCart">
-        <id column="id" property="id" />
-        <result column="username" property="username" />
-        <collection property="cartItems"
-            ofType="com.example.ecsite.model.CartItem">
-            <result column="product_id" property="productId" />
-            <result column="product_name" property="productName" />
-            <result column="quantity" property="quantity" />
+    <resultMap id="CartItemResultMap"
+        type="com.example.ecsite.model.CartItem">
+        <id column="product_id" property="product.id" />
+        <result column="user_id" property="userId" />
+        <result column="quantity" property="quantity" />
 
-        </collection>
-
+        <association property="product"
+            javaType="com.example.ecsite.model.Product">
+            <result column="product_name" property="name" />
+        </association>
     </resultMap>
 
-    <select id="findUserWithCartAndProductName"
-        resultMap="CartResultMap">
+    <select id="findCartItemsByUserId"
+        resultMap="CartItemResultMap">
         SELECT
-        u.id,
-        u.username,
+        c.user_id,
         c.product_id,
         p.name AS product_name,
         c.quantity
-        FROM users u
-        JOIN cart c ON u.id = c.user_id
-        JOIN products p ON
-        c.product_id
-        = p.id
-        WHERE u.id = #{userId}
+        FROM cart c
+        JOIN products p ON c.product_id = p.id
+        WHERE c.user_id = #{userId}
     </select>
 
 </mapper>

@@ -1,7 +1,8 @@
 package com.example.ecsite.mapper;
 
+import com.example.ecsite.model.CartItem;
 import com.example.ecsite.model.User;
-import com.example.ecsite.model.UserCart;
+import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -20,10 +21,10 @@ public interface UserMapper {
   User findUserWithCart(@Param("userId") int userId);
 
   /**
-   * ユーザー情報とそのユーザーのカート情報（商品IDと商品名）を取得する.
+   * ユーザIDをもとにカートの情報を取得する.
    *
    * @param userId ユーザーID
    * @return レスポンス
    */
-  UserCart findUserWithCartAndProductName(@Param("userId") int userId);
+  List<CartItem> findCartItemsByUserId(@Param("userId") int userId);
 }
