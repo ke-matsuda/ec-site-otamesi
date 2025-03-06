@@ -12,7 +12,8 @@ interface Product {
 interface User {
     id: number;
     username: string;
-    cartItems: number[]; // 商品IDのリスト
+    cartItems: number[];
+    productsInCart: Product[];
 }
 
 // ProductListの型定義
@@ -138,7 +139,10 @@ export const ProductList: React.FC = () => {
 
             <ul style={{ listStyle: "none", padding: 0 }}>
                 {products.map((product) => {
-                    const isInCart = user?.cartItems?.includes(product.id);
+                    //const isInCart = user?.cartItems?.includes(product.id);
+                    const isInCart = user?.productsInCart.some(
+                        (item) => item.id === product.id
+                    );
 
                     return (
                         <li

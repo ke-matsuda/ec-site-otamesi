@@ -5,22 +5,24 @@
         type="com.example.ecsite.model.User">
         <id column="id" property="id" />
         <result column="username" property="username" />
-        <collection property="cartItems"
-            ofType="java.lang.Integer">
-            <result column="product_id" />
+
+        <collection property="productsInCart"
+            ofType="com.example.ecsite.model.Product">
+            <id column="product_id" property="id" />
         </collection>
     </resultMap>
 
     <select id="findUserWithCart" resultMap="UserResultMap">
-        SELECT u.id,
+        SELECT
+        u.id,
         u.username,
         c.product_id
         FROM users u
         LEFT JOIN cart c ON u.id =
         c.user_id
-        WHERE u.id
-        = #{userId}
+        WHERE u.id = #{userId}
     </select>
+
 
     <resultMap id="CartItemResultMap"
         type="com.example.ecsite.model.CartItem">

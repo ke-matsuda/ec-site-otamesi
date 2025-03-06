@@ -13,7 +13,7 @@ import org.apache.ibatis.annotations.Param;
 public interface UserMapper {
 
   /**
-   * ユーザー情報とそのユーザのカート情報（商品IDのみ）を取得する.
+   * ユーザー情報とユーザのカート情報（商品IDのみ）を取得する.
    *
    * @param userId ユーザーID
    * @return レスポンス

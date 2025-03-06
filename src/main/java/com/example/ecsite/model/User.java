@@ -8,9 +8,8 @@ import java.util.List;
 public class User {
   private int id;
   private String username;
-  private List<Integer> cartItems; // カート内の商品IDリスト
+  private List<Product> productsInCart; // カート内の商品
 
-  // ゲッターとセッター
   public int getId() {
     return id;
   }
@@ -27,11 +26,11 @@ public class User {
     this.username = username;
   }
 
-  public List<Integer> getCartItems() {
-    return cartItems;
+  public List<Product> getProductsInCart() {
+    return productsInCart;
   }
 
-  public void setCartItems(List<Integer> cartItems) {
-    this.cartItems = cartItems;
+  public void setProductsInCart(List<Product> productsInCart) {
+    this.productsInCart = productsInCart;
   }
 }
