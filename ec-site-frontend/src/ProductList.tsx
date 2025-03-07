@@ -82,7 +82,7 @@ export const ProductList: React.FC = () => {
             });
         },
         onSuccess: () => {
-            queryClient.invalidateQueries(["user"]);
+            queryClient.invalidateQueries({ queryKey: ["user"] });
         },
     });
 
@@ -110,7 +110,7 @@ export const ProductList: React.FC = () => {
                 }
             );
         },
-        onSuccess: () => queryClient.invalidateQueries(["user"]),
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: ["user"] }),
     });
 
     //ローディングとエラー処理
