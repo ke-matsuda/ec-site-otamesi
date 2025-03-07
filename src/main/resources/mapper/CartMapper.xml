@@ -1,0 +1,21 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.ecsite.mapper.CartMapper">
+    <insert id="addProduct">
+        INSERT INTO cart (user_id, product_id,created_by,
+        updated_by) VALUES (#{userId}, #{productId},#{userId},#{userId})
+    </insert>
+
+    <delete id="removeProduct">
+        DELETE FROM cart WHERE user_id = #{userId} AND
+        product_id = #{productId}
+    </delete>
+
+    <update id="updateQuantity">
+        UPDATE cart
+        SET quantity = #{quantity},
+        updated_by = #{userId}
+        WHERE user_id =
+        #{userId} AND product_id = #{productId};
+    </update>
+
+</mapper>

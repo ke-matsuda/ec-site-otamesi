@@ -1,0 +1,51 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.ecsite.mapper.UserMapper">
+
+    <resultMap id="UserResultMap"
+        type="com.example.ecsite.model.User">
+        <id column="id" property="id" />
+        <result column="username" property="username" />
+
+        <collection property="productsInCart"
+            ofType="com.example.ecsite.model.Product">
+            <id column="product_id" property="id" />
+        </collection>
+    </resultMap>
+
+    <select id="findUserWithCart" resultMap="UserResultMap">
+        SELECT
+        u.id,
+        u.username,
+        c.product_id
+        FROM users u
+        LEFT JOIN cart c ON u.id =
+        c.user_id
+        WHERE u.id = #{userId}
+    </select>
+
+
+    <resultMap id="CartItemResultMap"
+        type="com.example.ecsite.model.CartItem">
+        <id column="product_id" property="product.id" />
+        <result column="user_id" property="userId" />
+        <result column="quantity" property="quantity" />
+
+        <association property="product"
+            javaType="com.example.ecsite.model.Product">
+            <result column="product_name" property="name" />
+        </association>
+    </resultMap>
+
+    <select id="findCartItemsByUserId"
+        resultMap="CartItemResultMap">
+        SELECT
+        c.user_id,
+        c.product_id,
+        p.name AS product_name,
+        c.quantity
+        FROM cart c
+        JOIN products p ON c.product_id = p.id
+        WHERE c.user_id = #{userId}
+    </select>
+
+</mapper>
