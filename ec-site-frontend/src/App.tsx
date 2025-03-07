@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ProductList } from "./ProductList";
 import { CartScreen } from "./CartScreen";
 import { OkiniScreen } from "./OkiniScreen";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const queryClient = new QueryClient();
 
@@ -21,6 +22,7 @@ function App() {
                     <Route path="/okini" element={<OkiniScreen />} />
                 </Routes>
             </BrowserRouter>
+            <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
     );
 }
