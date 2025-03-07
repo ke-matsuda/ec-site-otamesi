@@ -28,8 +28,6 @@ public class ProductController {
     this.productService = productService;
   }
 
-  // @Autowired
-  // private ProductService productService;
   /**
    * 商品一覧を取得する.
    *

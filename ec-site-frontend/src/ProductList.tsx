@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface Product {
     id: number;
@@ -18,8 +19,6 @@ interface User {
 
 // ProductListの型定義
 export const ProductList: React.FC = () => {
-    const [products, setProducts] = useState<Product[]>([]);
-    const [user, setUser] = useState<User | null>(null);
     const [favorites, setFavorites] = useState<number[]>([]);
 
     //初回のみ実行:ローカルストレージからお気に入りを復元
@@ -44,75 +43,79 @@ export const ProductList: React.FC = () => {
         });
     };
 
-    // 商品一覧を取得
-    useEffect((): void => {
-        fetch("http://localhost:8080/api/products")
-            .then((response) => response.json())
-            .then((data: Product[]) => setProducts(data))
-            .catch((error) => console.error("Error fetching products:", error));
-    }, []);
+    const queryClient = useQueryClient();
+    //商品の一覧を取得する
+    const {
+        data: products,
+        isLoading: isProductsLoading,
+        isError: isProductsError,
+    } = useQuery({
+        queryKey: ["products"],
+        queryFn: async () => {
+            const res = await fetch("http://localhost:8080/api/products");
+            if (!res.ok) throw new Error("商品一覧の取得に失敗しました");
+            console.log(res);
+            return res.json();
+        },
+    });
+    //ユーザー情報、カートに何を入れているかの情報を取得する。
+    const {
+        data: user,
+        isLoading: isUserLaoding,
+        isError: isUserError,
+    } = useQuery({
+        queryKey: ["user"],
+        queryFn: async () => {
+            const res = await fetch("http://localhost:8080/api/user/current");
+            if (!res.ok) throw new Error("user no get sippai...");
+            return res.json();
+        },
+    });
 
-    // ユーザー情報を取得
-    useEffect((): void => {
-        fetch("http://localhost:8080/api/user/current")
-            .then((response) => response.json())
-            .then((data: User) => setUser(data))
-            .catch((error) => console.error("Error fetching user:", error));
-    }, []);
-
-    // カートから削除する関数
-    const handleRemoveFromCart = (userId: number, productId: number): void => {
-        if (!userId) {
-            alert("ユーザー情報が取得できていません。");
-            return;
-        }
-        fetch(
-            `http://localhost:8080/api/cart/${productId}/remove-product/${userId}`,
-            {
-                method: "DELETE",
+    //商品をカートに追加する
+    const addToCartMutation = useMutation({
+        mutationFn: async (productId: number) => {
+            await fetch(`http://localhost:8080/api/cart/${productId}`, {
+                method: "POST",
                 headers: { "Content-Type": "application/json" },
-            }
-        )
-            .then((response) => {
-                if (response.ok && user) {
-                    setUser({
-                        ...user,
-                        cartItems: user.cartItems.filter(
-                            (item) => item !== productId
-                        ),
-                    });
-                } else {
-                    alert("エラーが発生しました。");
-                }
-            })
-            .catch((error) =>
-                console.error("Error removing from cart:", error)
-            );
-    };
+                body: JSON.stringify({ userId: user?.id }),
+            });
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries(["user"]);
+        },
+    });
 
-    // カートに追加する関数
-    const handleAddToCart = (userId: number, productId: number): void => {
-        if (!userId) {
-            alert("ユーザー情報が取得できていません。");
-            return;
-        }
-        fetch(`http://localhost:8080/api/cart/${productId}`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ userId }),
-        })
-            .then((response) => {
-                if (response.ok && user) {
-                    setUser({
-                        ...user,
-                        cartItems: [...user.cartItems, productId],
-                    });
-                } else {
-                    alert("エラーが発生しました。");
+    //非推奨の書き方
+    // const addToCartMutation = useMutation({
+    //     mutationFn:  (productId: number) => {
+    //         return fetch("http://localhost:8080/api/cart/${productId}", {
+    //             method: "POST",
+    //             headers: { "Content-Type": "aplication/json" },
+    //             body: JSON.stringify({ userId: user?.id }),
+    //         });
+    //     },
+    //     onSuccess: () => {
+    //         queryClient.invalidateQueries(["user"]);
+    //     },
+    // });
+
+    //商品をカートから削除する
+    const removeFromCartMutation = useMutation({
+        mutationFn: async (productId: number) => {
+            await fetch(
+                `http://localhost:8080/api/cart/${productId}/remove-product/${user?.id}`,
+                {
+                    method: "DELETE",
                 }
-            })
-            .catch((error) => console.error("Error adding to cart:", error));
-    };
+            );
+        },
+        onSuccess: () => queryClient.invalidateQueries(["user"]),
+    });
+
+    //ローディングとエラー処理
+    if (isProductsLoading || isUserLaoding) return <p>読込中...</p>;
+    if (isProductsError || isUserError) return <p>読み込みに失敗(泣)</p>;
 
     return (
         <div style={{ padding: "20px" }}>
@@ -138,10 +141,10 @@ export const ProductList: React.FC = () => {
             <Link to="okini">お気に入り一覧</Link>
 
             <ul style={{ listStyle: "none", padding: 0 }}>
-                {products.map((product) => {
+                {products.map((product: Product) => {
                     //const isInCart = user?.cartItems?.includes(product.id);
                     const isInCart = user?.productsInCart.some(
-                        (item) => item.id === product.id
+                        (item: any) => item.id === product.id
                     );
 
                     return (
@@ -201,12 +204,10 @@ export const ProductList: React.FC = () => {
                                         }
 
                                         isInCart
-                                            ? handleRemoveFromCart(
-                                                  user.id,
+                                            ? removeFromCartMutation.mutate(
                                                   product.id
                                               )
-                                            : handleAddToCart(
-                                                  user.id,
+                                            : addToCartMutation.mutate(
                                                   product.id
                                               );
                                     }}
@@ -254,3 +255,74 @@ export const ProductList: React.FC = () => {
         </div>
     );
 };
+
+//メモ
+// 商品一覧を取得
+// useEffect((): void => {
+//     fetch("http://localhost:8080/api/products")
+//         .then((response) => response.json())
+//         .then((data: Product[]) => setProducts(data))
+//         .catch((error) => console.error("Error fetching products:", error));
+// }, []);
+
+// ユーザー情報を取得
+// useEffect((): void => {
+//     fetch("http://localhost:8080/api/user/current")
+//         .then((response) => response.json())
+//         .then((data: User) => setUser(data))
+//         .catch((error) => console.error("Error fetching user:", error));
+// }, []);
+
+// カートから削除する関数
+// const handleRemoveFromCart = (userId: number, productId: number): void => {
+//     if (!userId) {
+//         alert("ユーザー情報が取得できていません。");
+//         return;
+//     }
+//     fetch(
+//         `http://localhost:8080/api/cart/${productId}/remove-product/${userId}`,
+//         {
+//             method: "DELETE",
+//             headers: { "Content-Type": "application/json" },
+//         }
+//     )
+//         .then((response) => {
+//             if (response.ok && user) {
+//                 setUser({
+//                     ...user,
+//                     cartItems: user.cartItems.filter(
+//                         (item) => item !== productId
+//                     ),
+//                 });
+//             } else {
+//                 alert("エラーが発生しました。");
+//             }
+//         })
+//         .catch((error) =>
+//             console.error("Error removing from cart:", error)
+//         );
+// };
+
+// カートに追加する関数
+// const handleAddToCart = (userId: number, productId: number): void => {
+//     if (!userId) {
+//         alert("ユーザー情報が取得できていません。");
+//         return;
+//     }
+//     fetch(`http://localhost:8080/api/cart/${productId}`, {
+//         method: "POST",
+//         headers: { "Content-Type": "application/json" },
+//         body: JSON.stringify({ userId }),
+//     })
+//         .then((response) => {
+//             if (response.ok && user) {
+//                 setUser({
+//                     ...user,
+//                     cartItems: [...user.cartItems, productId],
+//                 });
+//             } else {
+//                 alert("エラーが発生しました。");
+//             }
+//         })
+//         .catch((error) => console.error("Error adding to cart:", error));
+// };
